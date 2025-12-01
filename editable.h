@@ -9,7 +9,6 @@ class editable {
 						editable(void);
 	virtual			~editable(void);
 	
-	
 	virtual	void	setExitOnEnter(bool trueFalse);
 	virtual	void	handleKeystroke(keystroke* inKey);
 	virtual	void	beginEditing(void);
