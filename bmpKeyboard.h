@@ -4,7 +4,6 @@
 #include <scrKeyboard.h>
 #include <bmpObj.h>
 #include <bitmap.h>
-#include <bmpObj.h>
 
 
 // *****************************************************
