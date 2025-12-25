@@ -68,8 +68,8 @@ void editLabel::beginEditing(void) {
 	hookup();												// Code's running, good time to call this.
 	numBytes = strlen(buff)+1;							// Lets see what we have to start with.
 	if (resizeBuff(numBytes,&backupBuff)) {		// We'll see if we can allocate enough to work with.
-		if (resizeBuff(numBytes,&editBuff)) {
-			if (resizeBuff(numBytes,&tempBuff)) {
+		if (resizeBuff(numBytes,&editBuff)) {		// If we can allocate the edit buff..
+			if (resizeBuff(numBytes,&tempBuff)) {	// If we can allocate the tempBuff..
 				resizeBuff(0,&tempBuff);				// Good, we can recycle this one for now.
 				strcpy(backupBuff,buff);				// Get a copy in case things go wrong.
 				strcpy(editBuff,buff);					// Get a copy to edit.
@@ -115,6 +115,18 @@ void editLabel::setIndex(int newIndex) {
 
 int editLabel::getIndex(void) { return index; }			// Just return it. (I wonder who'd want to see it?)
 	
+	
+void editLabel::clearStr(void) {
+
+	if (mEditing) {		// If we're editing..
+		endEditing();		// I guess it's ok to loose everything. Shut it down.
+		setValue("");		// Clear the visible text.
+		beginEditing();	// Fire up editing anew.
+	} else {					// Else we're not editing. Just sitting.
+		setValue("");		// Then clearing the visible text should do.
+	}							// We hope..
+}
+
 
 void editLabel::handleInputKey(void) { 
 

@@ -28,6 +28,7 @@ class editLabel : public label,
 				void	init(void);
 	virtual	void	setIndex(int newIndex);
 	virtual	int	getIndex(void);
+	virtual	void	clearStr(void);
 	
 	virtual	void	beginEditing(void);
 	virtual	void	handleInputKey(void);
