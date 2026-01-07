@@ -136,13 +136,13 @@ void editLabel::handleInputKey(void) {
 	if (resizeBuff(numBytes,&tempBuff)) {				// Grab some temp memory.
 		memcpy(tempBuff,editBuff,index);					// Store the first block of characters to temp memory.
 		tempBuff[index] = mCurrentChar;					// Add the new character.
-		strcpy(&tempBuff[index+1],&editBuff[index]);	// Now add in the second have of the string to temp memory.
+		strcpy(&tempBuff[index+1],&editBuff[index]);	// Now add in the second half of the string to temp memory.
 		if (resizeBuff(numBytes,&editBuff)) {			// Reallocate the edit buffer to fit the new string.
-			strcpy(editBuff,tempBuff);						// Copy the new string beck into the edit buffer.
+			strcpy(editBuff,tempBuff);						// Copy the new string back into the edit buffer.
 			setIndex(index+1);								// Set the index up one.
 		}
 		resizeBuff(0,&tempBuff);							// Recycle the temp memory.
-		showText();												// Lest see the result.
+		showText();												// Let's see the result.
 	}
 }
 
@@ -151,7 +151,7 @@ void editLabel::handleBackspaceKey(void) {
 	
 	int numBytes;
 	
-	if (index) {														// You cant backspace at the beginning of the string.
+	if (index) {														// You can't backspace at the beginning of the string.
 		numBytes = strlen(editBuff)+1;							// Get the string length (including '\0').
 		memcpy(&editBuff[index-1],&editBuff[index],numBytes-index);	// Plunk the tail over the deleted character.
 		setIndex(index-1);											// Set the index down one.
