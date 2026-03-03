@@ -139,9 +139,16 @@ void enterArrow::stamp(void) {
   	screen->drawLine(arrowPoint[3].x,arrowPoint[3].y,arrowPoint[4].x,arrowPoint[4].y,&mForeColor);
   	screen->drawLine(arrowPoint[3].x,arrowPoint[3].y,arrowPoint[5].x,arrowPoint[5].y,&mForeColor);
   	
-  	screen->startWrite();
+  	// *************************************************************************************
+  	// *************************************************************************************
+  	// NOTE : startWrite() & endWrite(), as far as I can tell, don't do anything helpful.
+  	// They have been removed here, the only place I think I ever used them. BUT, this has
+  	// not been tested. When it has been tested, I'll clean this up.
+  	// *************************************************************************************
+  	// *************************************************************************************
+  	//screen->startWrite();
   	screen->drawCircleHelper(centx,centy,rad,4,&mForeColor);
-  	screen->endWrite();
+  	//screen->endWrite();
 }
 
 
