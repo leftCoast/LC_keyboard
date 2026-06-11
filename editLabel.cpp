@@ -66,7 +66,7 @@ void editLabel::beginEditing(void) {
 	int numBytes;
 
 	hookup();												// Code's running, good time to call this.
-	numBytes = strlen(buff)+1;							// Lets see what we have to start with.
+	numBytes = getNumChars()+1;						// Lets see what we have to start with.
 	if (resizeBuff(numBytes,&backupBuff)) {		// We'll see if we can allocate enough to work with.
 		if (resizeBuff(numBytes,&editBuff)) {		// If we can allocate the edit buff..
 			if (resizeBuff(numBytes,&tempBuff)) {	// If we can allocate the tempBuff..
@@ -97,11 +97,38 @@ void editLabel::endEditing(void) {
 }
 
 
+int editLabel::numBytesEditBuff(void) {
+
+	if (editBuff) {
+		return strlen(editBuff);
+	}
+	return 0;
+}
+
+
+int editLabel::numBytesBackupBuff(void) {
+
+	if (backupBuff) {
+		return strlen(backupBuff);
+	}
+	return 0;
+}
+
+
+int editLabel::numBytesTempBuff(void) {
+
+	if (tempBuff) {
+		return strlen(tempBuff);
+	}
+	return 0;
+}
+	
+	
 void editLabel::setIndex(int newIndex) { 
 
 	int numChars;
 	
-	numChars = strlen(editBuff);		// Count the characters once.
+	numChars = numBytesEditBuff();	// Count the characters once.
 	if (newIndex>numChars) {			// If they ask for an index beyond the string..
 		index = numChars;					// They get the index just at the end.
 	} else if (newIndex<0) {			// Else if they ask for an index before the start of the string..
@@ -132,7 +159,7 @@ void editLabel::handleInputKey(void) {
 
 	int numBytes;
 	
-	numBytes = strlen(editBuff)+2;						// The plan is to add a character.
+	numBytes = numBytesEditBuff()+2;						// The plan is to add a character.
 	if (resizeBuff(numBytes,&tempBuff)) {				// Grab some temp memory.
 		memcpy(tempBuff,editBuff,index);					// Store the first block of characters to temp memory.
 		tempBuff[index] = mCurrentChar;					// Add the new character.
@@ -151,10 +178,10 @@ void editLabel::handleBackspaceKey(void) {
 	
 	int numBytes;
 	
-	if (index) {														// You can't backspace at the beginning of the string.
-		numBytes = strlen(editBuff)+1;							// Get the string length (including '\0').
+	if (index) {																	// You can't backspace at the beginning of the string.
+		numBytes = numBytesEditBuff()+1;										// Get the string length (including '\0').
 		memcpy(&editBuff[index-1],&editBuff[index],numBytes-index);	// Plunk the tail over the deleted character.
-		setIndex(index-1);											// Set the index down one.
+		setIndex(index-1);														// Set the index down one.
 		showText();
 	}
 }
@@ -219,7 +246,7 @@ void editLabel::setInitalPointers(void) {
 	int numChars;
 	int viewChars;
 	
-	numChars = strlen(editBuff);						// editBuff is our actual string now.
+	numChars = numBytesEditBuff();					// editBuff is our actual string now.
 	viewChars = getViewChars();						// How many can we display?	
 	if(numChars<=viewChars) {							// This is the case where the string fits the view width.
 		switch(justify) {									// What is best for each case?
@@ -270,7 +297,7 @@ void editLabel::showText(void) {
 	int viewChars;
 	bool	done;
 	
-	numChars = strlen(editBuff);																	// editBuff is our actual string now.
+	numChars = numBytesEditBuff();																// editBuff is our actual string now.
 	viewChars = getViewChars();																	// How many can we display?
 	if(numChars<=viewChars) {																		// Basically, if the string fits.
 		switch(justify) {																				// We do the work to locate the cursor.

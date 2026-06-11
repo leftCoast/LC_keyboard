@@ -37,6 +37,10 @@ class editLabel : public label,
 	virtual	void	handleArrowBackKey(void);
 	virtual	void	endEditing(void);
 	
+	virtual	int	numBytesEditBuff(void);
+	virtual	int	numBytesBackupBuff(void);
+	virtual	int	numBytesTempBuff(void);
+	
   	virtual	void  doAction(event* inEvent,point* locaPt);
 	virtual	void	drawSelf(void);
 	virtual	void	setInitalPointers(void);
