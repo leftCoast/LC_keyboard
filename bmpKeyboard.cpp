@@ -21,7 +21,7 @@ bmpKeyboard::bmpKeyboard(editable* inEditObj,bool inModal,screenTypes inType)
   	rect			sRect;
 	offscreen	vPort; 
 	bmpObj*		keyCap;
-	Serial.println("Trying to make a keyboard?");
+	
 	pathBuff		= NULL;																	// Set all our strings to NULL..
 	bmpFolder	= NULL;																	//
 	checkBmp		= NULL;																	//
@@ -40,7 +40,7 @@ bmpKeyboard::bmpKeyboard(editable* inEditObj,bool inModal,screenTypes inType)
 	modal = inModal;																		// Note if we are modal or not.
 	keyCap = new bmpObj(0,0,keyWidth,keyHeight,getBmpPath(keyCapBmp));	// Create our bitmap drawing object.
 	if (keyCap) {																			// If we got one..
-		if (keyBMap.setSize(keyWidth,keyHeight)) {										// If we can allocate the RAM for the icon's bitmap..
+		if (keyBMap.setSize(keyWidth,keyHeight)) {								// If we can allocate the RAM for the icon's bitmap..
 			vPort.beginDraw(&keyBMap);													// Set up to offscreen drawing to the bitmap.
 			keyCap->drawSelf(); 															// Draw to it..
 			vPort.endDraw();																// Restore normal drawing.
