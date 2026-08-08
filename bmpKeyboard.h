@@ -53,8 +53,6 @@ class bmpKeyboard : public keyboard {
 				char*		spaceBmp;
 				char*		symbolBmp;
 				char*		redXBmp;
-				int		textXOffset;
-				int		textYOffset;
 };
 
 
