@@ -33,7 +33,8 @@ bmpKeyboard::bmpKeyboard(editable* inEditObj,bool inModal,screenTypes inType)
 	shiftBmp		= NULL;																	//
 	spaceBmp		= NULL;																	//
 	symbolBmp	= NULL;																	//
-	redXBmp		= NULL;																	//
+	redXBmp		= NULL;
+	modal			= inModal;																// Modal or not.
 	initParams(inType);																	// Setup the sizes & choices of stuff to fit this screen.
 	keyTextColor.setColor(LC_YELLOW);												// Set up key text color.
 	keyTextColor.blend(&white,60);													// Little adjustment here..
@@ -71,12 +72,14 @@ bmpKeyboard::~bmpKeyboard(void) {
 void bmpKeyboard::initParams(screenTypes inDispType) {
 	
 	int screenH;
+	int screenW;
 	
 	heapStr(&bmpFolder,ICON_PATH);
 	switch (inDispType) {
 		case sType240x320	:
 			keyWidth		= 24;
 			keyHeight	= 33;
+			screenW		= 240;
 			screenH		= 320;
 			heapStr(&deleteBmp,"delete36.bmp");
 			heapStr(&keyCapBmp,"keyCap24.bmp");
@@ -92,12 +95,15 @@ void bmpKeyboard::initParams(screenTypes inDispType) {
 				heapStr(&returnBmp,"ret36.bmp");
 				heapStr(&symbolBmp,"symb36.bmp");
 			}
-			setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
+			textXOffset = 7;
+			textYOffset = 9;
+			//setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
 		break;
 		case sType320x480	:
 			keyWidth		= 32;
 			keyHeight	= 44;
-			screenH		= 360;
+			screenW		= 320;
+			screenH		= 480;
 			heapStr(&deleteBmp,"delete48.bmp");
 			heapStr(&keyCapBmp,"keyCap32.bmp");
 			heapStr(&lArrowBmp,"lArrow32.bmp");
@@ -112,12 +118,15 @@ void bmpKeyboard::initParams(screenTypes inDispType) {
 				heapStr(&returnBmp,"ret48.bmp");
 				heapStr(&symbolBmp,"symb48.bmp");
 			}
-			setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
+			textXOffset = 9;
+			textYOffset = 12;
+			//setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
 		break;
 		default				:														// Default to original. 240x360
 			keyWidth		= 24;
 			keyHeight	= 33;
-			screenH		= 360;
+			screenW		= 240;
+			screenH		= 320;
 			heapStr(&deleteBmp,"delete36.bmp");
 			heapStr(&keyCapBmp,"keyCap24.bmp");
 			heapStr(&lArrowBmp,"lArrow24.bmp");
@@ -132,9 +141,12 @@ void bmpKeyboard::initParams(screenTypes inDispType) {
 				heapStr(&returnBmp,"ret36.bmp");
 				heapStr(&symbolBmp,"symb36.bmp");
 			}
-			setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
+			textXOffset = 7;
+			textYOffset = 9;
+			//setRect(0, screenH - 4 * keyHeight, 240, 4 * keyHeight);	// Set our rectangle.
 		break;
 	}
+	setRect(0, screenH - 4 * keyHeight, screenW, 4 * keyHeight);	// Set our rectangle.
 }
 
 
@@ -295,8 +307,8 @@ bmpInputKey::bmpInputKey(const char* inLabel, const char* inNum, const char* inS
 : inputKey(inLabel, inNum, inSym, inX, inY, inWidth, inHeight, inKeyboard) {
 
 	ourKeyboard = inKeyboard;						// Need a pointer to this for path names. (Poor design?)
-	keyBMap = inKeyboard->getKeyMap();			// The keyboard has the bitmap background.
-	setColors(inKeyboard->getKeyTextColor());	// And our favorite text color..
+	keyBMap = ourKeyboard->getKeyMap();			// The keyboard has the bitmap background.
+	setColors(ourKeyboard->getKeyTextColor());	// And our favorite text color..
 	setTextSize(2);
 }
 
@@ -326,11 +338,11 @@ void bmpInputKey::drawSelf(void) {
 		center.x = width/2;
 		center.y = height/2;
 		vPort.beginDraw(&ourBMap,x,y);	// We start drawing to it, it already has background image.
-		x = x + 7;
-		y = y + 9;
+		x = x + ourKeyboard->textXOffset;
+		y = y + ourKeyboard->textYOffset;
 		label::drawSelf();
-		x = x - 7;
-		y = y - 9;
+		x = x - ourKeyboard->textXOffset;
+		y = y - ourKeyboard->textYOffset;
 		if (clicked) {
 			for(int i=0;i<width;i++) {
 				for(int j=0;j<height;j++) {

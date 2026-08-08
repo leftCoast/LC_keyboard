@@ -52,12 +52,10 @@ void  datafield::setThisFocus(bool setLoose) {
 			mEditField->beginEditing();				// Give our editing field a kick to get it going.
 			mEditField->setEventSet(mEditEvents);	// Restore the editing field's events.
 		} else {												// Ok, we are loosing focus. Either someone else is getting it, or we let it go in idle().
-			mEditField->mSuccess = true;
-			mEditField->endEditing();
-			mEditField->setEventSet(noEvents);		// Shut off its events again.
 			if (mEditField->getEditing()) {			// If our editing session is still running..
 				mEditField->handleOkKey();				// In this case the user clicked elsewhere. This is seen as "OK".
 			}													//
+			mEditField->setEventSet(noEvents);		// Shut off its events again.													//
 			setEventSet(fullClick);						// Go back to catching clicks. So we can be restarted.						
 		}
 	}
