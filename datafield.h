@@ -10,7 +10,7 @@
 // single keyboard. And of course, doing all the correct editing things.
 //
 // Sharing the keyboard with other datafields uses the focus functionality given to us by
-// drawObj. Thie idea is that when we gain or loose focus, we can do the "right thing"
+// drawObj. The idea is that when we gain or loose focus, we can do the "right thing"
 // managing our given editing field, turning it on/off.
 
 
@@ -19,13 +19,15 @@ class datafield :	public drawGroup {
 
 	public:
 					datafield(int x,int y,int w,int h); 
+					datafield(rect* inRect);
 	virtual		~datafield(void);
 	
-	virtual	void	begin(keyboard* inKeyboard,editLabel* inEditLabel,drawObj* background=NULL);
+	virtual	void	begin(keyboard* inKeyboard,editLabel* inEditLabel,bool okOnExit=false,drawObj* background=NULL);
 	virtual	void	doAction(void);
 	virtual	void	setThisFocus(bool setLoose);
 	virtual	void	idle(void);
 	
+				bool			sendOkOnExit;
 				keyboard*	mKeyboard;
 				editLabel*	mEditField;
 				eventSet		mEditEvents;

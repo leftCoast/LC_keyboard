@@ -10,15 +10,23 @@ datafield::datafield(int x,int y,int w,int h)
 	mEditField	= NULL;
 }
 
+datafield::datafield(rect* inRect)
+	:drawGroup(inRect,fullClick) {
+	
+	mKeyboard	= NULL;
+	mEditField	= NULL;
+}
+
 
 //We didn't actually allocate anything. So, nothing to do here.
 datafield::~datafield(void) { }
 
 
 // This is the call you would use in setup(), when putting your screen/panel together.
-void datafield::begin(keyboard* inKeyboard,editLabel* inEditLabel,drawObj* background) {
+void datafield::begin(keyboard* inKeyboard,editLabel* inEditLabel,bool okOnExit,drawObj* background) {
 
 	mKeyboard = inKeyboard;							// Save a link to the keyboard.
+	sendOkOnExit = okOnExit;						// Maybe they want this?
 	if (background) addObj(background);			// If non-null, toss the background into our list.
 	mEditField = inEditLabel;						// Save a link to the editor.
 	mEditEvents = mEditField->getEventSet();	// Save off the edit field's event set.
@@ -28,7 +36,7 @@ void datafield::begin(keyboard* inKeyboard,editLabel* inEditLabel,drawObj* backg
 }
 	
 
-// We should only get a click when we arre NOT editing. Hence, on clicks, we set the focus
+// We should only get a click when we are NOT editing. Hence, on clicks, we set the focus
 // pointer to us. This will fire off the editing sequence.	
 void datafield::doAction(void) { setFocusPtr(this); }
 
@@ -44,10 +52,12 @@ void  datafield::setThisFocus(bool setLoose) {
 			mEditField->beginEditing();				// Give our editing field a kick to get it going.
 			mEditField->setEventSet(mEditEvents);	// Restore the editing field's events.
 		} else {												// Ok, we are loosing focus. Either someone else is getting it, or we let it go in idle().
+			mEditField->mSuccess = true;
+			mEditField->endEditing();
 			mEditField->setEventSet(noEvents);		// Shut off its events again.
 			if (mEditField->getEditing()) {			// If our editing session is still running..
 				mEditField->handleOkKey();				// In this case the user clicked elsewhere. This is seen as "OK".
-			}
+			}													//
 			setEventSet(fullClick);						// Go back to catching clicks. So we can be restarted.						
 		}
 	}
