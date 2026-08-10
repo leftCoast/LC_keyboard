@@ -62,6 +62,10 @@ void  datafield::setThisFocus(bool setLoose) {
 }
 
 
+// Default to NOT drawing one's self.
+void datafield::drawSelf() {  }
+
+
 // If the user clicks OK or cancel, we actually don't see it here. So, during idle time we
 // check to see if the thing has shut down on us. If so, we quietly set the focus pointer
 // to NULL, triggering everyone to do their stopping editing things. We shut off its event,

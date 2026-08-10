@@ -25,6 +25,7 @@ class datafield :	public drawGroup {
 	virtual	void	begin(keyboard* inKeyboard,editLabel* inEditLabel,bool okOnExit=false,drawObj* background=NULL);
 	virtual	void	doAction(void);
 	virtual	void	setThisFocus(bool setLoose);
+	virtual	void	drawSelf();
 	virtual	void	idle(void);
 	
 				bool			sendOkOnExit;
