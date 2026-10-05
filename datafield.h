@@ -12,7 +12,9 @@
 // Sharing the keyboard with other datafields uses the focus functionality given to us by
 // drawObj. The idea is that when we gain or loose focus, we can do the "right thing"
 // managing our given editing field, turning it on/off.
-
+//
+// NOTE : This is NOT the modal keyboard. This is the keyboard that is fixed to the bottom
+// of the panel. Permanent like. For the modal one, you'll need to look at alertObj stuff.
 
 
 class datafield :	public drawGroup {

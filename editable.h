@@ -1,7 +1,7 @@
 #ifndef editable_h
 #define editable_h
 
-#include "keystroke.h"
+#include <keystroke.h>
 
 class editable {
 
